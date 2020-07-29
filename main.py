@@ -47,10 +47,10 @@ n3_c1 = get_kf_split_data(3, 1)
 n3_c2 = get_kf_split_data(3, 2)
 n3_c3 = get_kf_split_data(3, 3)
 
-n3_mses = []
-n3_c1_mses = []
-n3_c2_mses = []
-n3_c3_mses = []
+n3_rmses = []
+n3_c1_rmses = []
+n3_c2_rmses = []
+n3_c3_rmses = []
 
 for i in range(0, N_SPLITS):
     print(f'########## KFold {i} ##########\n')
@@ -63,9 +63,9 @@ for i in range(0, N_SPLITS):
     regr = RandomForestRegressor(random_state=0)
     regr.fit(n3_c1_x_train, n3_c1_y_train)
     n3_c1_y_pred = regr.predict(n3_c1_x_test)
-    n3_c1_mse = mean_squared_error(n3_c1_y_test, n3_c1_y_pred, squared=False)
-    n3_c1_mses.append(n3_c1_mse)
-    print(f'n=3, c=1, {n3_c1_mse}\n')
+    n3_c1_rmse = mean_squared_error(n3_c1_y_test, n3_c1_y_pred, squared=False)
+    n3_c1_rmses.append(n3_c1_rmse)
+    print(f'n=3, c=1, {n3_c1_rmse}\n')
 
 
     n3_c2_x_train = n3_c2[i]['x_train']
@@ -76,9 +76,9 @@ for i in range(0, N_SPLITS):
     regr = RandomForestRegressor(random_state=0)
     regr.fit(n3_c2_x_train, n3_c2_y_train)
     n3_c2_y_pred = regr.predict(n3_c2_x_test)
-    n3_c2_mse = mean_squared_error(n3_c2_y_test, n3_c2_y_pred, squared=False)
-    n3_c2_mses.append(n3_c2_mse)
-    print(f'n=3, c=2, {n3_c2_mse}\n')
+    n3_c2_rmse = mean_squared_error(n3_c2_y_test, n3_c2_y_pred, squared=False)
+    n3_c2_rmses.append(n3_c2_rmse)
+    print(f'n=3, c=2, {n3_c2_rmse}\n')
 
 
     n3_c3_x_train = n3_c3[i]['x_train']
@@ -89,9 +89,9 @@ for i in range(0, N_SPLITS):
     regr = RandomForestRegressor(random_state=0)
     regr.fit(n3_c3_x_train, n3_c3_y_train)
     n3_c3_y_pred = regr.predict(n3_c3_x_test)
-    n3_c3_mse = mean_squared_error(n3_c3_y_test, n3_c3_y_pred, squared=False)
-    n3_c3_mses.append(n3_c3_mse)
-    print(f'n=3, c=3, {n3_c3_mse}\n')
+    n3_c3_rmse = mean_squared_error(n3_c3_y_test, n3_c3_y_pred, squared=False)
+    n3_c3_rmses.append(n3_c3_rmse)
+    print(f'n=3, c=3, {n3_c3_rmse}\n')
 
 
     n3_x_train = np.concatenate((n3_c1_x_train, n3_c2_x_train, n3_c3_x_train))
@@ -102,15 +102,15 @@ for i in range(0, N_SPLITS):
     regr = RandomForestRegressor(random_state=0)
     regr.fit(n3_x_train, n3_y_train)
     n3_y_pred = regr.predict(n3_x_test)
-    n3_mse = mean_squared_error(n3_y_test, n3_y_pred, squared=False)
-    n3_mses.append(n3_mse)
-    print(f'n=3, c=all, {n3_mse}\n')
+    n3_rmse = mean_squared_error(n3_y_test, n3_y_pred, squared=False)
+    n3_rmses.append(n3_rmse)
+    print(f'n=3, c=all, {n3_rmse}\n')
 
 print(f'########## mean ##########\n')
-print(f'n=3, c=1, {np.mean(np.array(n3_c1_mses))}\n')
-print(f'n=3, c=2, {np.mean(np.array(n3_c2_mses))}\n')
-print(f'n=3, c=3, {np.mean(np.array(n3_c3_mses))}\n')
-print(f'n=3, c=all, {np.mean(np.array(n3_mses))}\n')
+print(f'n=3, c=1, {np.mean(np.array(n3_c1_rmses))}\n')
+print(f'n=3, c=2, {np.mean(np.array(n3_c2_rmses))}\n')
+print(f'n=3, c=3, {np.mean(np.array(n3_c3_rmses))}\n')
+print(f'n=3, c=all, {np.mean(np.array(n3_rmses))}\n')
 
 # n5_c1 = get_kf_split_data(5, 1)
 # n5_c2 = get_kf_split_data(5, 2)
