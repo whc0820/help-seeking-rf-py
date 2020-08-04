@@ -55,10 +55,14 @@ n3_c1 = get_kf_split_data(3, 1)
 n3_c2 = get_kf_split_data(3, 2)
 n3_c3 = get_kf_split_data(3, 3)
 
-n3_rmses = []
 n3_c1_rmses = []
 n3_c2_rmses = []
 n3_c3_rmses = []
+
+n3_c1_g_rmses = []
+n3_c2_g_rmses = []
+n3_c3_g_rmses = []
+
 
 # k = 5
 n5_c1 = get_kf_split_data(5, 1)
@@ -67,76 +71,132 @@ n5_c3 = get_kf_split_data(5, 3)
 n5_c4 = get_kf_split_data(5, 4)
 n5_c5 = get_kf_split_data(5, 5)
 
-n5_rmses = []
 n5_c1_rmses = []
 n5_c2_rmses = []
 n5_c3_rmses = []
 n5_c4_rmses = []
 n5_c5_rmses = []
 
+n5_c1_g_rmses = []
+n5_c2_g_rmses = []
+n5_c3_g_rmses = []
+n5_c4_g_rmses = []
+n5_c5_g_rmses = []
+
+
 for i in range(0, N_SPLITS):
+    # k = 3, general, train data
+    n3_g_x_train = np.concatenate(
+        (n3_c1[i]['x_train'], n3_c2[i]['x_train'], n3_c3[i]['x_train']))
+    n3_g_y_train = np.concatenate(
+        (n3_c1[i]['y_train'], n3_c2[i]['y_train'], n3_c3[i]['y_train']))
+
     # k = 3, cluster1
-    n3_c1_rmses.append(get_rf_rmse(
-        n3_c1[i]['x_train'], n3_c1[i]['x_test'], n3_c1[i]['y_train'], n3_c1[i]['y_test']))
+    n3_c1_rmse = get_rf_rmse(
+        n3_c1[i]['x_train'], n3_c1[i]['x_test'], n3_c1[i]['y_train'], n3_c1[i]['y_test'])
+    n3_c1_rmses.append(n3_c1_rmse)
+
+    n3_c1_g_rmse = get_rf_rmse(
+        n3_g_x_train, n3_c1[i]['x_test'], n3_g_y_train, n3_c1[i]['y_test'])
+    n3_c1_g_rmses.append(n3_c1_g_rmse)
 
     # k = 3, cluster2
-    n3_c2_rmses.append(get_rf_rmse(
-        n3_c2[i]['x_train'], n3_c2[i]['x_test'], n3_c2[i]['y_train'], n3_c2[i]['y_test']))
+    n3_c2_rmse = get_rf_rmse(
+        n3_c2[i]['x_train'], n3_c2[i]['x_test'], n3_c2[i]['y_train'], n3_c2[i]['y_test'])
+    n3_c2_rmses.append(n3_c2_rmse)
+
+    n3_c2_g_rmse = get_rf_rmse(
+        n3_g_x_train, n3_c2[i]['x_test'], n3_g_y_train, n3_c2[i]['y_test'])
+    n3_c2_g_rmses.append(n3_c2_g_rmse)
 
     # k = 3, cluster3
-    n3_c3_rmses.append(get_rf_rmse(
-        n3_c3[i]['x_train'], n3_c3[i]['x_test'], n3_c3[i]['y_train'], n3_c3[i]['y_test']))
+    n3_c3_rmse = get_rf_rmse(
+        n3_c3[i]['x_train'], n3_c3[i]['x_test'], n3_c3[i]['y_train'], n3_c3[i]['y_test'])
+    n3_c3_rmses.append(n3_c3_rmse)
 
-    # k = 3, all cluster
-    n3_x_train = np.concatenate(
-        (n3_c1[i]['x_train'], n3_c2[i]['x_train'], n3_c3[i]['x_train']))
-    n3_x_test = np.concatenate(
-        (n3_c1[i]['x_test'], n3_c2[i]['x_test'], n3_c3[i]['x_test']))
-    n3_y_train = np.concatenate(
-        (n3_c1[i]['y_train'], n3_c2[i]['y_train'], n3_c3[i]['y_train']))
-    n3_y_test = np.concatenate(
-        (n3_c1[i]['y_test'], n3_c2[i]['y_test'], n3_c3[i]['y_test']))
-    n3_rmses.append(get_rf_rmse(n3_x_train, n3_x_test, n3_y_train, n3_y_test))
+    n3_c3_g_rmse = get_rf_rmse(
+        n3_g_x_train, n3_c3[i]['x_test'], n3_g_y_train, n3_c3[i]['y_test'])
+    n3_c3_g_rmses.append(n3_c3_g_rmse)
+
+    # k = 5, general train data
+    n5_g_x_train = np.concatenate(
+        (n5_c1[i]['x_train'], n5_c2[i]['x_train'], n5_c3[i]['x_train'], n5_c4[i]['x_train'], n5_c5[i]['x_train']))
+    n5_g_y_train = np.concatenate(
+        (n5_c1[i]['y_train'], n5_c2[i]['y_train'], n5_c3[i]['y_train'], n5_c4[i]['y_train'], n5_c5[i]['y_train']))
 
     # k = 5, cluster1
-    n5_c1_rmses.append(get_rf_rmse(
-        n5_c1[i]['x_train'], n5_c1[i]['x_test'], n5_c1[i]['y_train'], n5_c1[i]['y_test']))
+    n5_c1_rmse = get_rf_rmse(
+        n5_c1[i]['x_train'], n5_c1[i]['x_test'], n5_c1[i]['y_train'], n5_c1[i]['y_test'])
+    n5_c1_rmses.append(n5_c1_rmse)
+
+    n5_c1_g_rmse = get_rf_rmse(
+        n5_g_x_train, n5_c1[i]['x_test'], n5_g_y_train, n5_c1[i]['y_test'])
+    n5_c1_g_rmses.append(n5_c1_g_rmse)
 
     # k = 5, cluster2
-    n5_c2_rmses.append(get_rf_rmse(
-        n5_c2[i]['x_train'], n5_c2[i]['x_test'], n5_c2[i]['y_train'], n5_c2[i]['y_test']))
+    n5_c2_rmse = get_rf_rmse(
+        n5_c2[i]['x_train'], n5_c2[i]['x_test'], n5_c2[i]['y_train'], n5_c2[i]['y_test'])
+    n5_c2_rmses.append(n5_c2_rmse)
+
+    n5_c2_g_rmse = get_rf_rmse(
+        n5_g_x_train, n5_c2[i]['x_test'], n5_g_y_train, n5_c2[i]['y_test'])
+    n5_c2_g_rmses.append(n5_c2_g_rmse)
 
     # k = 5, cluster3
-    n5_c3_rmses.append(get_rf_rmse(
-        n5_c3[i]['x_train'], n5_c3[i]['x_test'], n5_c3[i]['y_train'], n5_c3[i]['y_test']))
+    n5_c3_rmse = get_rf_rmse(
+        n5_c3[i]['x_train'], n5_c3[i]['x_test'], n5_c3[i]['y_train'], n5_c3[i]['y_test'])
+    n5_c3_rmses.append(n5_c3_rmse)
+
+    n5_c3_g_rmse = get_rf_rmse(
+        n5_g_x_train, n5_c3[i]['x_test'], n5_g_y_train, n5_c3[i]['y_test'])
+    n5_c3_g_rmses.append(n5_c3_g_rmse)
 
     # k = 5, cluster4
-    n5_c4_rmses.append(get_rf_rmse(
-        n5_c4[i]['x_train'], n5_c4[i]['x_test'], n5_c4[i]['y_train'], n5_c4[i]['y_test']))
+    n5_c4_rmse = get_rf_rmse(
+        n5_c4[i]['x_train'], n5_c4[i]['x_test'], n5_c4[i]['y_train'], n5_c4[i]['y_test'])
+    n5_c4_rmses.append(n5_c4_rmse)
+
+    n5_c4_g_rmse = get_rf_rmse(
+        n5_g_x_train, n5_c4[i]['x_test'], n5_g_y_train, n5_c4[i]['y_test'])
+    n5_c4_g_rmses.append(n5_c4_g_rmse)
 
     # k = 5, cluster5
-    n5_c5_rmses.append(get_rf_rmse(
-        n5_c5[i]['x_train'], n5_c5[i]['x_test'], n5_c5[i]['y_train'], n5_c5[i]['y_test']))
+    n5_c5_rmse = get_rf_rmse(
+        n5_c5[i]['x_train'], n5_c5[i]['x_test'], n5_c5[i]['y_train'], n5_c5[i]['y_test'])
+    n5_c5_rmses.append(n5_c5_rmse)
 
-    # k = 5, all cluster
-    n5_x_train = np.concatenate(
-        (n5_c1[i]['x_train'], n5_c2[i]['x_train'], n5_c3[i]['x_train'], n5_c4[i]['x_train'], n5_c5[i]['x_train']))
-    n5_x_test = np.concatenate(
-        (n5_c1[i]['x_test'], n5_c2[i]['x_test'], n5_c3[i]['x_test'], n5_c4[i]['x_test'], n5_c5[i]['x_test']))
-    n5_y_train = np.concatenate(
-        (n5_c1[i]['y_train'], n5_c2[i]['y_train'], n5_c3[i]['y_train'], n5_c4[i]['y_train'], n5_c5[i]['y_train']))
-    n5_y_test = np.concatenate(
-        (n5_c1[i]['y_test'], n5_c2[i]['y_test'], n5_c3[i]['y_test'], n5_c4[i]['y_test'], n5_c5[i]['y_test']))
-    n5_rmses.append(get_rf_rmse(n5_x_train, n5_x_test, n5_y_train, n5_y_test))
+    n5_c5_g_rmse = get_rf_rmse(
+        n5_g_x_train, n5_c5[i]['x_test'], n5_g_y_train, n5_c5[i]['y_test'])
+    n5_c5_g_rmses.append(n5_c5_g_rmse)
 
-print(f'n=3, c=1, {np.mean(np.array(n3_c1_rmses))}\n')
-print(f'n=3, c=2, {np.mean(np.array(n3_c2_rmses))}\n')
-print(f'n=3, c=3, {np.mean(np.array(n3_c3_rmses))}\n')
-print(f'n=3, c=all, {np.mean(np.array(n3_rmses))}\n')
 
-print(f'n=5, c=1, {np.mean(np.array(n5_c1_rmses))}\n')
-print(f'n=5, c=2, {np.mean(np.array(n5_c2_rmses))}\n')
-print(f'n=5, c=3, {np.mean(np.array(n5_c3_rmses))}\n')
-print(f'n=5, c=4, {np.mean(np.array(n5_c4_rmses))}\n')
-print(f'n=5, c=5, {np.mean(np.array(n5_c5_rmses))}\n')
-print(f'n=5, c=all, {np.mean(np.array(n5_rmses))}\n')
+out_df = pd.DataFrame(np.array([n3_c1_rmses, n3_c1_g_rmses,
+                                n3_c2_rmses, n3_c2_g_rmses,
+                                n3_c3_rmses, n3_c3_g_rmses,
+                                n5_c1_rmses, n5_c1_g_rmses,
+                                n5_c2_rmses, n5_c2_g_rmses,
+                                n5_c3_rmses, n5_c3_g_rmses,
+                                n5_c4_rmses, n5_c4_g_rmses,
+                                n5_c5_rmses, n5_c5_g_rmses]),
+                      columns=['k-fold-1', 'k-fold-2', 'k-fold-3', 'k-fold-4', 'k-fold-5'])
+out_df.insert(0, 'k-means-n', ['3', '3', '3', '3', '3',
+                               '3', '5', '5', '5', '5', '5', '5', '5', '5', '5', '5'])
+out_df.insert(1, 'model', ['cluster1', 'cluster1-general', 'cluster2', 'cluster2-general', 'cluster3', 'cluster3-general',
+                           'cluster1', 'cluster1-general', 'cluster2', 'cluster2-general', 'cluster3', 'cluster3-general', 'cluster4', 'cluster4-general', 'cluster5', 'cluster5-general'])
+out_df['mean'] = [np.mean(np.array(n3_c1_rmses)),
+                  np.mean(np.array(n3_c1_g_rmses)),
+                  np.mean(np.array(n3_c2_rmses)),
+                  np.mean(np.array(n3_c2_g_rmses)),
+                  np.mean(np.array(n3_c3_rmses)),
+                  np.mean(np.array(n3_c3_g_rmses)),
+                  np.mean(np.array(n5_c1_rmses)),
+                  np.mean(np.array(n5_c1_g_rmses)),
+                  np.mean(np.array(n5_c2_rmses)),
+                  np.mean(np.array(n5_c2_g_rmses)),
+                  np.mean(np.array(n5_c3_rmses)),
+                  np.mean(np.array(n5_c3_g_rmses)),
+                  np.mean(np.array(n5_c4_rmses)),
+                  np.mean(np.array(n5_c4_g_rmses)),
+                  np.mean(np.array(n5_c5_rmses)),
+                  np.mean(np.array(n5_c5_g_rmses))]
+out_df.to_csv(path_or_buf='out.csv', index=False)
